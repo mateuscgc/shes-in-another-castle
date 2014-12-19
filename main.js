@@ -1,21 +1,16 @@
 
-var p1 = {atk: Math.ceil(Math.random() * 5), def: Math.ceil(Math.random() * 5), res: Math.ceil(Math.random() * 5), HP: 0};
-p1.HP = p1.res * 5;
-
-var p2 = {atk: Math.ceil(Math.random() * 5), def: Math.ceil(Math.random() * 5), res: Math.ceil(Math.random() * 5), HP: 0};
-p2.HP = p2.res * 5;
-
 var attack = function (attacker, defender) {
+    
     'use strict';
     var i, totalDMG = 0;
     
     // calcula dano
-    for (i = 1; i <= attacker.atk; i += 1) {
+    for (i = 1; i <= attacker.attack; i += 1) {
         totalDMG += Math.ceil(Math.random() * 6);
     }
     
     //calcula defesa 
-    for (i = 1; i <= defender.def; i += 1) {
+    for (i = 1; i <= defender.defense; i += 1) {
         totalDMG -= Math.ceil(Math.random() * 6);
     }
     
@@ -25,6 +20,7 @@ var attack = function (attacker, defender) {
 };
 
 var fight = function (p1, p2) {
+    
     'use strict';
     var turn = 0;
     
@@ -38,8 +34,47 @@ var fight = function (p1, p2) {
     }
     
     if (p1.HP <= 0) {
-        window.console.log('Player 1 died from sickness!');
+        window.console.log(p1.title + ' died from sickness!');
     } else {
-        window.console.log('Player 2 died by a knife!');
+        window.console.log(p2.title + ' died by a knife!');
     }
+};
+
+var newCharacter = function (name, points) {
+    
+    if(points === undefined) {
+        points = 10;
+    }
+    
+    var character = {title: name, attack: 0, defense: 0, resistance: 0, HP: 0};
+    
+    if (points >= 5) {
+        character['attack'] = Math.ceil(Math.random() * 5);
+    } else {
+        character['attack'] = Math.ceil(Math.random() * points);
+    }
+    points -= character['attack'];
+    
+    if (points >= 5) {
+        character['defense'] = Math.ceil(Math.random() * 5);
+    } else {
+        character['defense'] = Math.ceil(Math.random() * points);
+    }
+    points -= character['defense'];
+    
+    if (points >= 5) {
+        character['resistance'] = Math.ceil(Math.random() * 5);
+    } else {
+        character['resistance'] = Math.ceil(Math.random() * points);
+    }
+    points -= character['resistance'];
+    
+    if (character['resistance'] == 0) {
+        character['HP'] = 1;
+    } else {
+        character['HP'] = character['resistance'] * 5;
+    }
+    
+    return character;
+    
 };
