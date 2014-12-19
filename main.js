@@ -34,8 +34,8 @@ Character.prototype.display = function () {
     container = document.querySelector('body');
     char = document.createElement('div');
     
-    name = document.createElement('h1');
-    name.innerHTML = 'Nome: ' + this.name;
+    name = document.createElement('h3');
+    name.innerHTML = 'Nome: ' + this.name + '<br>' + 'Força: ' + this.strength;
     
     char.appendChild(name);
     container.appendChild(char);
@@ -64,26 +64,31 @@ Battle.prototype.attack = function (attacker, defender) {
     }
 };
     
-Battle.prototype.fight = function (p1, p2) {
+Battle.prototype.turn = function (p1, p2) {
     'use strict';
-    var turn = 0;
 
-    while (p1.HP > 0 && p2.HP > 0) {
-        if (turn === 0) {
-            this.attack(p1, p2);
-        } else {
-            this.attack(p2, p1);
-        }
-        turn = (turn + 1) % 2;
-    }
-
-    if (p1.HP <= 0) {
-        window.console.log(p1.name + ' died from sickness!');
-        return p2;
+    this.attack(p1, p2);
+    if (p2.HP <= 0) {
+        return p2.name + ' died from sickness!';
     } else {
-        window.console.log(p2.name + ' died by a knife!');
-        return p1;
+        this.attack(p2, p1);
+        if (p1.HP <= 0) {
+            return p1.name + ' died by a knife!';
+        }
     }
+};
+
+Battle.prototype.displayATKButton = function () {
+    'use strict';
+    var container, button;
+    
+    container = document.querySelector('body');
+    button = document.createElement('button');
+    button.addEventListener('click', this.turn(this.p1, this.p2));
+    button.innerHTML = 'Atacar!';
+    
+    container.appendChild(button);
+    
 };
 
 var newPlayer = function (name, points) {
@@ -148,10 +153,10 @@ var Game = function (name1, name2, points1, points2) {
     if (points2 === undefined) {
         points2 = 10;
     }
-    
-    b = new Battle(name1, name2, points1, points2);
-    p1.display();
-    
-    return b.fight(p1, p2);
+    b = new Battle(p1, p2);
+    b.p1.display();
+    b.displayATKButton();
+    b.p2.display();
     
 };
+
