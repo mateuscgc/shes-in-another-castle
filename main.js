@@ -35,8 +35,10 @@ var fight = function (p1, p2) {
     
     if (p1.HP <= 0) {
         window.console.log(p1.title + ' died from sickness!');
+        return p2;
     } else {
         window.console.log(p2.title + ' died by a knife!');
+        return p1;
     }
 };
 
@@ -46,7 +48,7 @@ var newCharacter = function (name, points) {
         points = 10;
     }
     
-    var character = {title: name, attack: 0, defense: 0, resistance: 0, HP: 0};
+    var character = {title: name, attack: 0, defense: 0, resistance: 0, HP: 0, initialHP: 0};
     
     if (points >= 5) {
         character.attack = Math.ceil(Math.random() * 5);
@@ -74,7 +76,22 @@ var newCharacter = function (name, points) {
     } else {
         character.HP = character.resistance * 5;
     }
+    character.initialHP = character.HP;
     
     return character;
+    
+};
+
+var newGame = function(name1, name2, points1, points2) {
+    'use strict';
+    if (points1 === undefined) {
+        points1 = 10;
+    }
+    
+    if (points2 === undefined) {
+        points2 = 10;
+    }
+    
+    return fight(newCharacter(name1, points1), newCharacter(name2, points2));
     
 };
