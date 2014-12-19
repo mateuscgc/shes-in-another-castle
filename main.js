@@ -5,14 +5,10 @@ var attack = function (attacker, defender) {
     var i, totalDMG = 0;
     
     // calcula dano
-    for (i = 1; i <= attacker.attack; i += 1) {
-        totalDMG += Math.ceil(Math.random() * 6);
-    }
+    totalDMG += attacker.hits(attacker.attack);
     
     //calcula defesa 
-    for (i = 1; i <= defender.defense; i += 1) {
-        totalDMG -= Math.ceil(Math.random() * 6);
-    }
+    totalDMG -= defender.defends(defender.defense);
     
     if (totalDMG > 0) {
         defender.HP -= totalDMG;
@@ -48,7 +44,32 @@ var newCharacter = function (name, points) {
         points = 10;
     }
     
-    var character = {title: name, attack: 0, defense: 0, resistance: 0, HP: 0, initialHP: 0};
+    var character = {
+        title: name,
+        attack: 0,
+        skill: 0,
+        defense: 0,
+        resistance: 0,
+        firePower: 0,
+        HP: 0,
+        initialHP: 0,
+        
+        hits: function(attack) {
+            var i, dmg = 0;
+            for (i = 1; i <= attack; i += 1){
+                dmg += attack * Math.ceil(Math.random() * 6);
+            }
+            return dmg;
+        },
+        
+        defends: function (defense) {
+            var i, def = 0;
+            for (i = 1; i <= defense; i += 1){
+                def += defense * Math.ceil(Math.random() * 6);
+            }
+            return def;
+        }
+    };
     
     if (points >= 5) {
         character.attack = Math.ceil(Math.random() * 5);
@@ -56,6 +77,13 @@ var newCharacter = function (name, points) {
         character.attack = Math.ceil(Math.random() * points);
     }
     points -= character.attack;
+    
+    if (points >= 5) {
+        character.skill = Math.ceil(Math.random() * 5);
+    } else {
+        character.skill = Math.ceil(Math.random() * points);
+    }
+    points -= character.skill;
     
     if (points >= 5) {
         character.defense = Math.ceil(Math.random() * 5);
@@ -71,12 +99,19 @@ var newCharacter = function (name, points) {
     }
     points -= character.resistance;
     
-    if (character.resistance === 0) {
-        character.HP = 1;
+    if (points >= 5) {
+        character.firePower = Math.ceil(Math.random() * 5);
     } else {
-        character.HP = character.resistance * 5;
+        character.firePower = Math.ceil(Math.random() * points);
     }
-    character.initialHP = character.HP;
+    points -= character.firePower;
+    
+    if (character.resistance === 0) {
+        character.initialHP = 1;
+    } else {
+        character.initialHP = character.resistance * 5;
+    }
+    character.HP = character.initialHP;
     
     return character;
     
