@@ -1,25 +1,26 @@
 
-var p1 = [Math.ceil(Math.random() * 5), Math.ceil(Math.random() * 5), Math.ceil(Math.random() * 5)];
-p1[3] = p1[2] * 5;
-var p2 = [Math.ceil(Math.random() * 5), Math.ceil(Math.random() * 5), Math.ceil(Math.random() * 5)];
-p2[3] = p2[2] * 5;
+var p1 = {atk: Math.ceil(Math.random() * 5), def: Math.ceil(Math.random() * 5), res: Math.ceil(Math.random() * 5), HP: 0};
+p1.HP = p1.res * 5;
 
-var attack = function (atk, def) {
+var p2 = {atk: Math.ceil(Math.random() * 5), def: Math.ceil(Math.random() * 5), res: Math.ceil(Math.random() * 5), HP: 0};
+p2.HP = p2.res * 5;
+
+var attack = function (attacker, defender) {
     'use strict';
     var i, totalDMG = 0;
     
     // calcula dano
-    for (i = 1; i <= atk[0]; i += 1) {
+    for (i = 1; i <= attacker.atk; i += 1) {
         totalDMG += Math.ceil(Math.random() * 6);
     }
     
     //calcula defesa 
-    for (i = 1; i <= def[1]; i += 1) {
+    for (i = 1; i <= defender.def; i += 1) {
         totalDMG -= Math.ceil(Math.random() * 6);
     }
     
     if (totalDMG > 0) {
-        def[3] -= totalDMG;
+        defender.HP -= totalDMG;
     }
 };
 
@@ -27,7 +28,7 @@ var fight = function (p1, p2) {
     'use strict';
     var turn = 0;
     
-    while (p1[3] > 0 && p2[3] > 0) {
+    while (p1.HP > 0 && p2.HP > 0) {
         if (turn === 0) {
             attack(p1, p2);
         } else {
@@ -36,7 +37,7 @@ var fight = function (p1, p2) {
         turn = (turn + 1) % 2;
     }
     
-    if (p1[3] <= 0) {
+    if (p1.HP <= 0) {
         window.console.log('Player 1 died from sickness!');
     } else {
         window.console.log('Player 2 died by a knife!');
