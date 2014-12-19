@@ -41,38 +41,38 @@ var fight = function (p1, p2) {
 };
 
 var newCharacter = function (name, points) {
-    
-    if(points === undefined) {
+    'use strict';
+    if (points === undefined) {
         points = 10;
     }
     
     var character = {title: name, attack: 0, defense: 0, resistance: 0, HP: 0};
     
     if (points >= 5) {
-        character['attack'] = Math.ceil(Math.random() * 5);
+        character.attack = Math.ceil(Math.random() * 5);
     } else {
-        character['attack'] = Math.ceil(Math.random() * points);
+        character.attack = Math.ceil(Math.random() * points);
     }
-    points -= character['attack'];
+    points -= character.attack;
     
     if (points >= 5) {
-        character['defense'] = Math.ceil(Math.random() * 5);
+        character.defense = Math.ceil(Math.random() * 5);
     } else {
-        character['defense'] = Math.ceil(Math.random() * points);
+        character.defense = Math.ceil(Math.random() * points);
     }
-    points -= character['defense'];
+    points -= character.defense;
     
     if (points >= 5) {
-        character['resistance'] = Math.ceil(Math.random() * 5);
+        character.resistance = Math.ceil(Math.random() * 5);
     } else {
-        character['resistance'] = Math.ceil(Math.random() * points);
+        character.resistance = Math.ceil(Math.random() * points);
     }
-    points -= character['resistance'];
+    points -= character.resistance;
     
-    if (character['resistance'] == 0) {
-        character['HP'] = 1;
+    if (character.resistance === 0) {
+        character.HP = 1;
     } else {
-        character['HP'] = character['resistance'] * 5;
+        character.HP = character.resistance * 5;
     }
     
     return character;
