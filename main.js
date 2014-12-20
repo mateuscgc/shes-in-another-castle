@@ -14,7 +14,7 @@ Character.prototype.attacks = function () {
     'use strict';
     var i, dmg = 0;
     for (i = 1; i <= this.strength; i += 1) {
-        dmg += this.strength * Math.ceil(Math.random() * 6);
+        dmg += Math.ceil(Math.random() * 6);
     }
     return dmg;
 };
@@ -23,7 +23,7 @@ Character.prototype.defends = function () {
     'use strict';
     var i, def = 0;
     for (i = 1; i <= this.defense; i += 1) {
-        def += this.defense * Math.ceil(Math.random() * 6);
+        def += Math.ceil(Math.random() * 6);
     }
     return def;
 };
@@ -52,7 +52,7 @@ var Battle = function (p1, p2) {
 Battle.prototype.changeLife = function (char) {
     'use strict';
     var life;
-    life = document.querySelector('#' + char.name);
+    life = document.querySelector('#char_' + char.name + ' .char-HP');
     life.innerHTML = char.HP;
 };
 
@@ -62,10 +62,9 @@ Battle.prototype.attack = function (attacker, defender) {
 
     // calcula dano
     totalDMG += attacker.attacks();
-
     //calcula defesa 
     totalDMG -= defender.defends();
-
+    
     if (totalDMG > 0) {
         defender.HP -= totalDMG;
         this.changeLife(defender);
@@ -89,30 +88,37 @@ Battle.prototype.turn = function () {
 
 Battle.prototype.displayFighters = function () {
     'use strict';
-    var container, char, name, life;
+    var container, char, request;
     container = document.querySelector('body');
     
-    char = document.createElement('div');
-    name = document.createElement('h3');
-    name.innerHTML = 'Nome: ' + this.p1.name;
-    life = document.createElement('p');
-    life.innerHTML = this.p1.HP;
-    life.setAttribute('id', this.p1.name);
-
-    char.appendChild(name);
-    char.appendChild(life);
-    container.appendChild(char);
+    request = new XMLHttpRequest();
+    request.open('GET', 'template.html', false);
+    request.send();
+    char = request.responseText.
+        replace('{{name}}', this.p1.name).
+        replace('{{name}}', this.p1.name).
+        replace('{{str}}', this.p1.strength).
+        replace('{{skill}}', this.p1.skill).
+        replace('{{def}}', this.p1.defense).
+        replace('{{res}}', this.p1.resistance).
+        replace('{{FP}}', this.p1.firePower).
+        replace('{{initialHP}}', this.p1.initialHP).
+        replace('{{HP}}', this.p1.HP);
     
-    char = document.createElement('div');
-    name = document.createElement('h3');
-    name.innerHTML = 'Nome: ' + this.p2.name;
-    life = document.createElement('p');
-    life.innerHTML = this.p2.HP;
-    life.setAttribute("id", this.p2.name);
-
-    char.appendChild(name);
-    char.appendChild(life);
-    container.appendChild(char);
+    container.innerHTML = char;
+    
+    char = request.responseText.
+        replace('{{name}}', this.p2.name).
+        replace('{{name}}', this.p2.name).
+        replace('{{str}}', this.p2.strength).
+        replace('{{skill}}', this.p2.skill).
+        replace('{{def}}', this.p2.defense).
+        replace('{{res}}', this.p2.resistance).
+        replace('{{FP}}', this.p2.firePower).
+        replace('{{initialHP}}', this.p2.initialHP).
+        replace('{{HP}}', this.p2.HP);
+    
+    container.innerHTML += char;
 };
 
 Battle.prototype.displayATKButton = function (battle) {
@@ -187,14 +193,14 @@ var newCPU = function (name, points) {
 
 var Game = function () {
     'use strict';
-    var p1, p2, form, bNewChar;
+    var p1, p2, form, bNeseIntwChar;
     
     
     
     form = document.querySelector('#form_new_char');
     form.addEventListener('submit', function (event) {
         event.preventDefault();
-        var name, str, skill, def, res, FP;
+        var name, str, skill, def, res, FP, container;
         name = this.querySelector('#char_name').value;
         str = parseInt(this.querySelector('#char_str').value, 0);
         skill = parseInt(this.querySelector('#char_skill').value, 0);
@@ -205,6 +211,5 @@ var Game = function () {
         p2 = newCPU('Gabriel');
         this.battle = new Battle(p1, p2);
         this.battle.fight();
-        this.parentNode.removeChild(this);
     });
 };
