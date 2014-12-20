@@ -136,7 +136,7 @@ Battle.prototype.fight = function () {
     this.displayATKButton(this);
 };
 
-var newPlayer = function (name, points) {
+var newCPU = function (name, points) {
     'use strict';
     var str, skill, def, res, FP, c;
 
@@ -185,20 +185,26 @@ var newPlayer = function (name, points) {
 };
 
 
-var Game = function (name1, name2, points1, points2) {
+var Game = function () {
     'use strict';
-    var p1, p2;
-    p1 = newPlayer(name1, points1);
-    p2 = newPlayer(name2, points2);
+    var p1, p2, form, bNewChar;
     
-    if (points1 === undefined) {
-        points1 = 10;
-    }
     
-    if (points2 === undefined) {
-        points2 = 10;
-    }
-    this.battle = new Battle(p1, p2);
-    this.battle.fight();
     
+    form = document.querySelector('#form_new_char');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        var name, str, skill, def, res, FP;
+        name = this.querySelector('#char_name').value;
+        str = parseInt(this.querySelector('#char_str').value, 0);
+        skill = parseInt(this.querySelector('#char_skill').value, 0);
+        def = parseInt(this.querySelector('#char_def').value, 0);
+        res = parseInt(this.querySelector('#char_res').value, 0);
+        FP = parseInt(this.querySelector('#char_FP').value, 0);
+        p1 = new Character(name, str, skill, def, res, FP);
+        p2 = newCPU('Gabriel');
+        this.battle = new Battle(p1, p2);
+        this.battle.fight();
+        this.parentNode.removeChild(this);
+    });
 };
