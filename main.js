@@ -49,6 +49,13 @@ var Battle = function (p1, p2) {
     this.p2 = p2;
 };
 
+Battle.prototype.changeLife = function (char) {
+    'use strict';
+    var life;
+    life = document.querySelector('#' + char.name);
+    life.innerHTML = char.HP;
+};
+
 Battle.prototype.attack = function (attacker, defender) {
     'use strict';
     var i, totalDMG = 0;
@@ -61,34 +68,72 @@ Battle.prototype.attack = function (attacker, defender) {
 
     if (totalDMG > 0) {
         defender.HP -= totalDMG;
+        this.changeLife(defender);
     }
 };
     
-Battle.prototype.turn = function (p1, p2) {
+Battle.prototype.turn = function () {
     'use strict';
-
-    this.attack(p1, p2);
-    if (p2.HP <= 0) {
-        return p2.name + ' died from sickness!';
+    this.attack(this.p1, this.p2);
+    if (this.p2.HP <= 0) {
+        window.console.log(this.p2.name + ' died from sickness!');
+        return this.p2.name + ' died from sickness!';
     } else {
-        this.attack(p2, p1);
-        if (p1.HP <= 0) {
-            return p1.name + ' died by a knife!';
+        this.attack(this.p2, this.p1);
+        if (this.p1.HP <= 0) {
+            window.console.log(this.p1.name + ' died by a knife!');
+            return this.p1.name + ' died by a knife!';
         }
     }
 };
 
-Battle.prototype.displayATKButton = function () {
+Battle.prototype.displayFighters = function () {
+    'use strict';
+    var container, char, name, life;
+    container = document.querySelector('body');
+    
+    char = document.createElement('div');
+    name = document.createElement('h3');
+    name.innerHTML = 'Nome: ' + this.p1.name;
+    life = document.createElement('p');
+    life.innerHTML = this.p1.HP;
+    life.setAttribute('id', this.p1.name);
+
+    char.appendChild(name);
+    char.appendChild(life);
+    container.appendChild(char);
+    
+    char = document.createElement('div');
+    name = document.createElement('h3');
+    name.innerHTML = 'Nome: ' + this.p2.name;
+    life = document.createElement('p');
+    life.innerHTML = this.p2.HP;
+    life.setAttribute("id", this.p2.name);
+
+    char.appendChild(name);
+    char.appendChild(life);
+    container.appendChild(char);
+};
+
+Battle.prototype.displayATKButton = function (battle) {
     'use strict';
     var container, button;
-    
+
     container = document.querySelector('body');
     button = document.createElement('button');
-    button.addEventListener('click', this.turn(this.p1, this.p2));
+    button.addEventListener('click', function () {
+        battle.turn();
+    });
     button.innerHTML = 'Atacar!';
     
     container.appendChild(button);
     
+};
+
+Battle.prototype.fight = function () {
+    'use strict';
+    this.displayFighters();
+    this.displayATKButton(this);
 };
 
 var newPlayer = function (name, points) {
@@ -142,7 +187,7 @@ var newPlayer = function (name, points) {
 
 var Game = function (name1, name2, points1, points2) {
     'use strict';
-    var b, p1, p2;
+    var p1, p2;
     p1 = newPlayer(name1, points1);
     p2 = newPlayer(name2, points2);
     
@@ -153,10 +198,7 @@ var Game = function (name1, name2, points1, points2) {
     if (points2 === undefined) {
         points2 = 10;
     }
-    b = new Battle(p1, p2);
-    b.p1.display();
-    b.displayATKButton();
-    b.p2.display();
+    this.battle = new Battle(p1, p2);
+    this.battle.fight();
     
 };
-
