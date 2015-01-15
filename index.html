@@ -7,10 +7,26 @@
 </head>
 <body>
 	<div class="scene begin">
-        <button class="btn btn-begin">
+        <button class="btn btn-begin" id="new_game">
             <div class="arrow-right"></div>
             New Game
         </button>
     </div>
+
+
+
+
+    <script src="js/system/helper.js"></script>
+    <script src="js/system/new_char.js"></script>
+    <script src="js/system/game.js"></script>
+    <script src="js/entities/character.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var newGame = document.getElementById('new_game');
+            newGame.addEventListener('click', function () {
+                createChar();
+            });
+        });
+    </script>
 </body>
 </html>

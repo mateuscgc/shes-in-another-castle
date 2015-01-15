@@ -18,7 +18,7 @@ Character.prototype.attacks = function () {
     }
     return dmg;
 };
-        
+
 Character.prototype.defends = function () {
     'use strict';
     var i, def = 0;
@@ -33,10 +33,10 @@ Character.prototype.display = function () {
     var container, char, name;
     container = document.querySelector('body');
     char = document.createElement('div');
-    
+
     name = document.createElement('h3');
     name.innerHTML = 'Nome: ' + this.name + '<br>' + 'Força: ' + this.strength;
-    
+
     char.appendChild(name);
     container.appendChild(char);
 };
@@ -62,15 +62,15 @@ Battle.prototype.attack = function (attacker, defender) {
 
     // calcula dano
     totalDMG += attacker.attacks();
-    //calcula defesa 
+    //calcula defesa
     totalDMG -= defender.defends();
-    
+
     if (totalDMG > 0) {
         defender.HP -= totalDMG;
         this.changeLife(defender);
     }
 };
-    
+
 Battle.prototype.turn = function () {
     'use strict';
     this.attack(this.p1, this.p2);
@@ -90,7 +90,7 @@ Battle.prototype.displayFighters = function () {
     'use strict';
     var container, char, request;
     container = document.querySelector('body');
-    
+
     request = new XMLHttpRequest();
     request.open('GET', 'template.html', false);
     request.send();
@@ -104,9 +104,9 @@ Battle.prototype.displayFighters = function () {
         replace('{{FP}}', this.p1.firePower).
         replace('{{initialHP}}', this.p1.initialHP).
         replace('{{HP}}', this.p1.HP);
-    
+
     container.innerHTML = char;
-    
+
     char = request.responseText.
         replace('{{name}}', this.p2.name).
         replace('{{name}}', this.p2.name).
@@ -117,7 +117,7 @@ Battle.prototype.displayFighters = function () {
         replace('{{FP}}', this.p2.firePower).
         replace('{{initialHP}}', this.p2.initialHP).
         replace('{{HP}}', this.p2.HP);
-    
+
     container.innerHTML += char;
 };
 
@@ -131,9 +131,9 @@ Battle.prototype.displayATKButton = function (battle) {
         battle.turn();
     });
     button.innerHTML = 'Atacar!';
-    
+
     container.appendChild(button);
-    
+
 };
 
 Battle.prototype.fight = function () {
@@ -194,9 +194,9 @@ var newCPU = function (name, points) {
 var Game = function () {
     'use strict';
     var p1, p2, form, bNeseIntwChar;
-    
-    
-    
+
+
+
     form = document.querySelector('#form_new_char');
     form.addEventListener('submit', function (event) {
         event.preventDefault();
