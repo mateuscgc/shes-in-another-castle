@@ -6,7 +6,7 @@ var createChar = function () {
                         <h3>Create your character</h3>\
                         <form action="#" method="#" id="new_char_form">\
                             <label for="name">Name</label>\
-                            <input type="text" name="name" id="char_name" required>\
+                            <input type="text" name="name" id="char_name" required focus>\
                             <ul>\
                                 <li>5 skill points to use</li>\
                                 <li>Strength <input type="number" min="0" max="5" id="char_str"></li>\
@@ -37,5 +37,6 @@ var createChar = function () {
         FP = parseInt(form.querySelector('#char_FP').value, 0);
 
         player = new Character(name, str, def, skill, res, FP);
+        Game(player);
     });
 };

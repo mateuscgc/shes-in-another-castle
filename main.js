@@ -1,3 +1,4 @@
+// Implementaçao antiga
 //Classe de Personagem
 var Character = function (name, strength, skill, defense, resistance, firePower) {
     'use strict';
