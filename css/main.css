@@ -1,0 +1,31 @@
+html, body {
+    height: 100%;
+}
+
+.scene {
+    width: 800px;
+    height: 450px;
+
+    background-color: grey;
+}
+
+.battle {
+    background-image: url();
+}
+
+.being {
+    background-color: blue;
+    position: absolute;
+
+    width: 120px;
+    height: 150px;
+}
+.char {
+    left: 130px;
+    top: 140px;
+}
+
+.enemy {
+    left: 530px;
+    top: 140px;
+}
