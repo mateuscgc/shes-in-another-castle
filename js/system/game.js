@@ -18,19 +18,16 @@ var Game = function (player) {
 
     this.battleCommandsHUDComponent = new BattleCommandsHUDComponent('.battle-actions-hud');
 
-    while (this.player.isAlive()) {
-        this.enemy = newCPU(this.player);
+    this.enemy = newCPU(this.player);
 
-        this.enemyComponent = new EnemyComponent('.enemy',this.enemy);
-        this.enemyHUDComponent = new EnemyHUDComponent('.enemy-hud', this.enemy);
+    this.enemyComponent = new EnemyComponent('.enemy',this.enemy);
+    this.enemyHUDComponent = new EnemyHUDComponent('.enemy-hud', this.enemy);
 
-        this.enemyComponent.render();
-        this.enemyHUDComponent.render();
+    this.enemyComponent.render();
+    this.enemyHUDComponent.render();
 
-        this.battle = new Battle (player, playerComponent, playerHUDComponent, enemy, enemyComponent, enemyHUDComponent);
-        this.battleCommandsHUDComponent.startEventListeners(this.battle);
+    this.battle = new Battle (player, playerComponent, playerHUDComponent, enemy, enemyComponent, enemyHUDComponent);
+    this.battleCommandsHUDComponent.startEventListeners(this.battle);
 
 
-        this.player.HP = 0;
-    }
 };

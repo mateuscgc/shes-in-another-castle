@@ -4,7 +4,6 @@ var newCPU = function (player) {
 
     points = 5 + player.lvl - 1;
     limit = (5 + player.lvl) / 2;
-    debugger
 
     str = Math.ceil(Math.random() * Math.min(limit, points));
     points = Math.max(points - str, 0);

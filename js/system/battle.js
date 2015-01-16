@@ -6,13 +6,18 @@ var Battle = function (p, pc, phc, e, ec, ehc) {
     this.e = e;
     this.ec = ec;
     this.ehc = ehc;
+    console.log(p.HP);
 };
 
 Battle.prototype.attack = function (attacker, defender) {
     'use strict';
+    console.log("hp"+defender.HP);
+
     var i, totalDMG;
 
+    console.log("ihp"+defender.HP);
     totalDMG = Math.max(attacker.attacks() - defender.defends() , 0);
+    console.log("dmg"+totalDMG);
     defender.HP -= totalDMG;
     // this.changeLife(defender);
 };
