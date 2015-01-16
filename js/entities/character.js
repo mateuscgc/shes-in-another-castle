@@ -12,20 +12,18 @@ var Character = function (name, strength, skill, defense, resistance, firePower)
 };
 
 Character.prototype = {
+    isAlive: function () {
+        'use strict';
+        if (this.HP > 0)
+            return true;
+        return false;
+    },
     attacks: function () {
         'use strict';
-        var i, dmg = 0;
-        for (i = 1; i <= this.strength; i += 1) {
-            dmg += Math.ceil(Math.random() * 6);
-        }
-        return dmg;
+        return Math.ceil(Math.random() * 6) * this.strength;
     },
     defends: function () {
         'use strict';
-        var i, def = 0;
-        for (i = 1; i <= this.defense; i += 1) {
-            def += Math.ceil(Math.random() * 6);
-        }
-        return def;
+        return Math.ceil(Math.random() * 6) * this.defense;
     }
 };
