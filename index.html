@@ -1,1 +1,43 @@
+<<<<<<< HEAD
 My Page
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>She's In Another Castle - Game</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+	<div class="scene begin">
+        <button class="btn btn-begin" id="new_game">
+            <div class="arrow-right"></div>
+            New Game
+        </button>
+    </div>
+
+    <script src="js/entities/character.js"></script>
+
+    <script src="js/components/scene.js"></script>
+    <script src="js/components/player_component.js"></script>
+    <script src="js/components/player_hud_component.js"></script>
+    <script src="js/components/enemy_component.js"></script>
+    <script src="js/components/enemy_hud_component.js"></script>
+    <script src="js/components/battle_commands_hud_components.js"></script>
+
+    <script src="js/system/new_char.js"></script>
+    <script src="js/system/new_cpu.js"></script>
+    <script src="js/system/game.js"></script>
+    <script src="js/system/battle.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var newGame = document.getElementById('new_game');
+            newGame.addEventListener('click', function () {
+                createChar();
+            });
+        });
+    </script>
+</body>
+</html>
+>>>>>>> master
